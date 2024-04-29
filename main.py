@@ -60,8 +60,6 @@ def check_mail():
 
     # 打开邮箱登录页面
     driver.get("https://mail.sbc.usst.edu.cn/")
-
-    # 根据实际情况调整等待时间，确保页面元素加载完毕
     time.sleep(1)
 
     # 输入用户名和密码（根据您的页面元素ID修改）
@@ -73,9 +71,8 @@ def check_mail():
     # 点击登录按钮（根据您的页面元素ID修改）
     login_button = driver.find_element(By.CLASS_NAME, "signinTxt")
     login_button.click()
-
-    # 等待登录完毕
     time.sleep(1)
+
     while True:
 
         # 从这里开始编写检查邮件的逻辑
