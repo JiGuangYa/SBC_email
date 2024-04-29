@@ -55,9 +55,8 @@ def convert_time(receive_time):
 
 def check_mail():
     global last_check_time
-    # 设置ChromeDriver
+    # 设置FirefoxDriver 默认采用火狐浏览器
     driver = webdriver.Firefox()
-    # service=Service(ChromeDriverManager().install()))
 
     # 打开邮箱登录页面
     driver.get("https://mail.sbc.usst.edu.cn/")
