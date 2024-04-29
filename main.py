@@ -1,18 +1,16 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 import time
 import datetime
 import os
+import config
 
-# 定义全局变量
-USERNAME = "SBC-23-8052"  # 邮箱账号
-PASSWORD = "Aa283013"  # 邮箱密码
-EMAIL_FILE = 'emails.txt'  # 保存邮件信息
-LAST_CHECK_TIME_FILE = 'last_check_time.txt'  # 保存上一次检查邮件的时间
-FORWARD_EMAIL = "59350428@qq.com"  # 转发的邮箱地址
+# 使用配置文件中的全局变量
+USERNAME = config.USERNAME
+PASSWORD = config.PASSWORD
+EMAIL_FILE = config.EMAIL_FILE
+LAST_CHECK_TIME_FILE = config.LAST_CHECK_TIME_FILE
+FORWARD_EMAIL = config.FORWARD_EMAIL
 
 # 创建一个文件来保存邮件信息
 if not os.path.exists(EMAIL_FILE):
