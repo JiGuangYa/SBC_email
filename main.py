@@ -7,14 +7,21 @@ import time
 import datetime
 import os
 
+# 定义全局变量
+USERNAME = "SBC-23-8052"  # 邮箱账号
+PASSWORD = "Aa283013"  # 邮箱密码
+EMAIL_FILE = 'emails.txt'  # 保存邮件信息
+LAST_CHECK_TIME_FILE = 'last_check_time.txt'  # 保存上一次检查邮件的时间
+FORWARD_EMAIL = "59350428@qq.com"  # 转发的邮箱地址
+
 # 创建一个文件来保存邮件信息
-if not os.path.exists('emails.txt'):
-    with open('emails.txt', 'a') as f:
+if not os.path.exists(EMAIL_FILE):
+    with open(EMAIL_FILE, 'a') as f:
         f.write('Receive Time\n')
 
 # 保存上一次检查邮件的时间
-if os.path.exists('last_check_time.txt'):
-    with open('last_check_time.txt', 'r') as f:
+if os.path.exists(LAST_CHECK_TIME_FILE):
+    with open(LAST_CHECK_TIME_FILE, 'r') as f:
         content = f.read()
         if content:
             last_check_time = datetime.datetime.strptime(
@@ -61,8 +68,8 @@ def check_mail():
     # 输入用户名和密码（根据您的页面元素ID修改）
     username_box = driver.find_element(By.ID, "username")
     password_box = driver.find_element(By.ID, "password")
-    username_box.send_keys("SBC-23-8052")
-    password_box.send_keys("Aa283013")
+    username_box.send_keys(USERNAME)
+    password_box.send_keys(PASSWORD)
 
     # 点击登录按钮（根据您的页面元素ID修改）
     login_button = driver.find_element(By.CLASS_NAME, "signinTxt")
@@ -70,69 +77,77 @@ def check_mail():
 
     # 等待登录完毕
     time.sleep(1)
+    while True:
 
-    # 从这里开始编写检查邮件的逻辑
-
-    latest_email = driver.find_element(
-        By.ID, "_ariaId_27")
-    latest_email.click()
-    time.sleep(1)
-
-    # 获取收信人
-    sender = driver.find_element(By.CLASS_NAME, "bidi.allowTextSelection")
-    sender_text = sender.text
-    print("Sender:", sender_text)
-    time.sleep(1)
-
-    # 获取收件时间
-    receive_time = driver.find_element(
-        By.XPATH, "//*[@id='primaryContainer']/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[1]/div[4]/div[2]/div[5]/div[2]/div[1]/div[2]/div[1]/div[1]/div/div[2]/div[3]/div/div[1]/div[1]/span").text
-    print("Receive Time:", receive_time)
-    time.sleep(1)
-
-    # 将收件时间转换为datetime对象
-    receive_time = convert_time(receive_time)
-
-    # 打印出receive_time和last_check_time的值
-    print(f'receive_time: {receive_time}, last_check_time: {last_check_time}')
-
-    # 判断是否有新邮件
-    if receive_time != last_check_time:
-        # 将新的收件时间写入文件
-        with open('emails.txt', 'a', encoding='utf-8-sig') as f:
-            f.write(f'{receive_time}\n')
-
-        # 更新上一次检查邮件的时间
-        last_check_time = receive_time
-        with open('last_check_time.txt', 'w') as f:
-            f.write(str(last_check_time))
+        # 从这里开始编写检查邮件的逻辑
+        latest_email = driver.find_element(
+            By.ID, "_ariaId_27")
+        latest_email.click()
         time.sleep(1)
 
-        extra_button = driver.find_element(
-            By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[1]/div[4]/div[2]/div[5]/div[2]/div[1]/div[2]/div[1]/div[1]/div/div[2]/div[2]/div[1]/div[4]/button[4]/span[1]")
-        extra_button.click()
+        # 获取收信人
+        sender = driver.find_element(By.CLASS_NAME, "bidi.allowTextSelection")
+        sender_text = sender.text
+        print("Sender:", sender_text)
         time.sleep(1)
 
-        forword_button = driver.find_element(
-            By.XPATH, "/html/body/div[12]/div/div/div/div/div[3]/button/div/span[2]")
-        forword_button.click()
+        # 获取收件时间
+        receive_time = driver.find_element(
+            By.XPATH, "//*[@id='primaryContainer']/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[1]/div[4]/div[2]/div[5]/div[2]/div[1]/div[2]/div[1]/div[1]/div/div[2]/div[3]/div/div[1]/div[1]/span").text
+        print("Receive Time:", receive_time)
         time.sleep(1)
 
-        receiver_mail = driver.find_element(
-            By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/div/div/span/div[1]/form/input")
-        receiver_mail.send_keys("59350428@qq.com")
+        # 将收件时间转换为datetime对象
+        receive_time = convert_time(receive_time)
+
+        # 打印出receive_time和last_check_time的值
+        print(f'receive_time: {receive_time}, last_check_time: {
+              last_check_time}')
+
+        # 判断是否有新邮件
+        if receive_time != last_check_time:
+            # 将新的收件时间写入文件
+            with open(EMAIL_FILE, 'a', encoding='utf-8-sig') as f:
+                f.write(f'{receive_time}\n')
+
+            # 更新上一次检查邮件的时间
+            last_check_time = receive_time
+            with open(LAST_CHECK_TIME_FILE, 'w') as f:
+                f.write(str(last_check_time))
+            time.sleep(1)
+
+            extra_button = driver.find_element(
+                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[1]/div[4]/div[2]/div[5]/div[2]/div[1]/div[2]/div[1]/div[1]/div/div[2]/div[2]/div[1]/div[4]/button[4]/span[1]")
+            extra_button.click()
+            time.sleep(1)
+
+            forword_button = driver.find_element(
+                By.XPATH, "/html/body/div[12]/div/div/div/div/div[3]/button/div/span[2]")
+            forword_button.click()
+            time.sleep(1)
+
+            receiver_mail = driver.find_element(
+                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/div/div/span/div[1]/form/input")
+            receiver_mail.send_keys(FORWARD_EMAIL)
+            time.sleep(1)
+
+            send_button = driver.find_element(
+                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[3]/div[2]/div[1]/button[1]")
+            send_button.click()
+            print("Email has been sent")
+            time.sleep(1)
+
+        else:
+            print("No new email")
+            time.sleep(1)
+        # 刷新页面
+        print("Refreshing the page")
+        driver.refresh()
         time.sleep(1)
 
-        send_button = driver.find_element(
-            By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[3]/div[2]/div[1]/button[1]")
-        send_button.click()
-        print("Email has been sent")
-        time.sleep(1)
-        driver.quit()
-
-    else:
-        print("No new email")
-        driver.quit()
+        # 暂停5分钟
+        print("Waiting for 5 minutes")
+        time.sleep(2)
 
 
 if __name__ == "__main__":
