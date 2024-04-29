@@ -147,7 +147,7 @@ def check_mail():
 
         # 暂停5分钟
         print("Waiting for 5 minutes")
-        time.sleep(2)
+        time.sleep(300)
 
 
 if __name__ == "__main__":
