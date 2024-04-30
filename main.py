@@ -42,6 +42,12 @@ def convert_time(receive_time):
         date = now
         time = datetime.datetime.strptime(
             receive_time.split(', ')[1], '%H:%M').time()
+    elif '/' in receive_time:  # 添加这个条件来处理包含日期的字符串
+        date_str = receive_time.split(', ')[0].split(' ')[1]  # 修改这里，只取日期部分
+        date = datetime.datetime.strptime(date_str, '%m/%d').date()
+        date = date.replace(year=now.year)  # 添加这一行，将年份设置为当前年份
+        time = datetime.datetime.strptime(
+            receive_time.split(', ')[1], '%H:%M').time()
     else:
         weekday_dict = {'周一': 0, '周二': 1, '周三': 2,
                         '周四': 3, '周五': 4, '周六': 5, '周日': 6}

@@ -10,3 +10,4 @@ build/
 builder/build
 builder/dist
 main.spec
+emails.txt
