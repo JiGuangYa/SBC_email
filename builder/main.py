@@ -139,7 +139,9 @@ def check_mail():
             time.sleep(1)
 
             send_button = driver.find_element(
-                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[3]/div[2]/div[1]/button[1]")
+                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[5]/div/div[2]/div[1]/button[1]")
+            driver.execute_script(
+                "arguments[0].scrollIntoView();", send_button)
             send_button.click()
             print("Email has been sent")
             time.sleep(1)

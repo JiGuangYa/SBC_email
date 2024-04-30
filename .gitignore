@@ -4,3 +4,9 @@ SBC_mail.py
 SBC_mail copy.py
 config.py
 builder/SBC_Email_V1.0.0.zip
+dist/main.exe
+dist/
+build/
+builder/build
+builder/dist
+main.spec
