@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time
 import datetime
 import os
@@ -124,12 +126,21 @@ def check_mail():
                 By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/div/div/span/div[1]/form/input")
             receiver_mail.send_keys(FORWARD_EMAIL)
             time.sleep(1)
+            receiver_mail.send_keys(Keys.RETURN)  # 按回车键
+            time.sleep(1)
 
             send_button = driver.find_element(
-                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[5]/div/div[2]/div[1]/button[1]/span[2]")
-            driver.execute_script(
-                "arguments[0].scrollIntoView();", send_button)
-            send_button.click()
+                By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[2]/div[2]/div[3]/div/div[3]/div[1]/div[3]/div")
+            # driver.execute_script(
+            #     "arguments[0].scrollIntoView();", send_button)
+            # send_button.click()
+            actions = ActionChains(driver)
+            actions.move_to_element(send_button)
+            actions.click()
+            actions.key_down(Keys.CONTROL)
+            actions.send_keys(Keys.RETURN)
+            actions.key_up(Keys.CONTROL)
+            actions.perform()
             print("Email has been sent")
             time.sleep(1)
 
