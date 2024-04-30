@@ -136,7 +136,7 @@ def check_mail():
             receiver_mail = driver.find_element(
                 By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[4]/div/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/div/div/span/div[1]/form/input")
             receiver_mail.send_keys(FORWARD_EMAIL)
-            time.sleep(1)
+            time.sleep(2)
 
             send_button = driver.find_element(
                 By.XPATH, "/html/body/div[2]/div/div[3]/div[5]/div/div[1]/div/div[5]/div[3]/div/div[5]/div[1]/div/div[3]/div[5]/div/div[2]/div[1]/button[1]")
